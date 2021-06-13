@@ -1,4 +1,4 @@
-package com.library.springcloud.libraryconfigserver;
+package com.library.springcloud.configserver;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
