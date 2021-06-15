@@ -4,7 +4,7 @@ plugins {
 	id 'java'
 }
 
-group = 'com.naming-server'
+group = 'com.rupesh.library'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
@@ -18,7 +18,8 @@ ext {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'org.springframework.cloud:spring-cloud-starter-config'
+	//No need of config dependency as our microservice will connect to config server not naming server
+	//implementation 'org.springframework.cloud:spring-cloud-starter-config'
 	implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
