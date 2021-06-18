@@ -1,10 +1,12 @@
 package com.user.service.service;
 
+import com.user.service.config.UserConfiguration;
 import com.user.service.exception.ResourceNotFoundException;
 import com.user.service.model.User;
 import com.user.service.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    UserConfiguration userConfiguration;
+
     @Override
     public User addUser(User user) {
         return userRepository.save(user);
@@ -26,6 +31,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAllUsers() {
+        //For testing the RefreshScope feature
+        /*System.out.println(userConfiguration.getValue()+" <<<<<<<<< userConfiguration getValue");
+        System.out.println(userConfiguration.getLocalProperty()+" <<<<<<<<< userConfiguration getLocalProperty");*/
         return userRepository.findAll();
     }
 
