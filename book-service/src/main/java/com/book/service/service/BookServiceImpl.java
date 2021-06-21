@@ -3,9 +3,9 @@ package com.book.service.service;
 import com.book.service.exception.ResourceNotFoundException;
 import com.book.service.model.Book;
 import com.book.service.repository.BookRepository;
+import com.book.service.repository.dynamo.BookRepositoryDynamo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -20,9 +20,22 @@ public class BookServiceImpl implements BookService {
     @Autowired
     private BookRepository bookRepository;
 
+    @Autowired
+    private BookRepositoryDynamo bookRepositoryDynamo;
+
     @Override
     public Book addBook(Book book) {
         return bookRepository.save(book);
+    }
+
+    @Override
+    public com.book.service.model.dynamo.Book addBookToDynamoDb(com.book.service.model.dynamo.Book book) {
+        return bookRepositoryDynamo.save(book);
+    }
+
+    @Override
+    public List<com.book.service.model.dynamo.Book> getAllBooksDynamo() {
+        return (List<com.book.service.model.dynamo.Book>) bookRepositoryDynamo.findAll();
     }
 
     @Override

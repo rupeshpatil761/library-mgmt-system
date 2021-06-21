@@ -1,6 +1,6 @@
 package com.book.service.service;
 
-import com.book.service.model.Book;
+import com.book.service.model.dynamo.Book;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -8,13 +8,17 @@ import java.util.List;
 
 @Service
 public interface BookService {
-    Book addBook(Book book);
+    com.book.service.model.Book addBook(com.book.service.model.Book book);
 
-    List<Book> getAllBooks();
+    Book addBookToDynamoDb(Book book);
 
-    Book getBookById(Long id);
+    public List<Book> getAllBooksDynamo();
 
-    Book updateBook(Long id, Book book);
+    List<com.book.service.model.Book> getAllBooks();
+
+    com.book.service.model.Book getBookById(Long id);
+
+    com.book.service.model.Book updateBook(Long id, com.book.service.model.Book book);
 
     ResponseEntity<?> deleteBook(Long id);
 }

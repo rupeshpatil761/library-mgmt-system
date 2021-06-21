@@ -20,6 +20,22 @@ public class BookController {
         return bookService.addBook(book);
     }
 
+
+    /**
+     * Added these two endpoints to test dynamo db operations
+     * @param book
+     * @return
+     */
+    @PostMapping("/dynamo")
+    public com.book.service.model.dynamo.Book addBookDynamoDb(@RequestBody com.book.service.model.dynamo.Book book){
+        return bookService.addBookToDynamoDb(book);
+    }
+
+    @GetMapping("/dynamo")
+    public List<com.book.service.model.dynamo.Book> getAllBooksDynamoDb(){
+        return bookService.getAllBooksDynamo();
+    }
+
     @GetMapping("/{id}")
     public Book getBookById(@PathVariable(name="id", required = true) Long id){
         return bookService.getBookById(id);
