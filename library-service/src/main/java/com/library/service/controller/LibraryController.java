@@ -3,9 +3,10 @@ package com.library.service.controller;
 import com.library.service.bean.Book;
 import com.library.service.bean.User;
 import com.library.service.bean.UserBook;
-import com.library.service.model.Library;
 import com.library.service.service.LibraryServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JCircuitBreakerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +18,9 @@ public class LibraryController {
 
     @Autowired
     private LibraryServiceImpl libraryService;
+
+    @Autowired
+    private Resilience4JCircuitBreakerFactory circuitBreakerFactory;
 
     @GetMapping("/users")
     public List<User> getAllUsers(){
@@ -39,9 +43,16 @@ public class LibraryController {
     }
 
     @GetMapping("/books/{id}")
-    public Book getBookById(@PathVariable(name="id", required = true) Long id){
+    public Object getBookById(@PathVariable(name="id", required = true) Long id){
         return libraryService.getBookById(id);
+        //return circuitBreakerFactory.create("book").run(() -> libraryService.getBookById(id), throwable -> serviceUnavailableResponse());
     }
+
+    private ResponseEntity<Object> serviceUnavailableResponse(){
+        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body("Book Service is Unavailable");
+        //return new ResponseEntity<>()"Service is unavailable";
+    }
+
     @GetMapping("/books")
     public List<Book> getAllBooks(){
         return libraryService.getAllBooks();
