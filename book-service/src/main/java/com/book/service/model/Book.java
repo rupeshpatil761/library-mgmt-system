@@ -29,12 +29,3 @@ public class Book extends AuditModel {
     private String description;
 }
 
-enum BookCategory {
-    FANTACY,
-    THRILLER,
-    SELF_HELP,
-    MOTIVATIONAL,
-    TRAVEL,
-    SCIENCE,
-    ROMANCE;
-}
