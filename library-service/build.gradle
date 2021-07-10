@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.5.1'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id 'maven-publish'
 }
 
 group = 'com.rupesh.library'
@@ -30,14 +31,13 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-		implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	//developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
 	//testing
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
-	testImplementation 'junit:junit'
 
 	//Lombok dependencies
 	compileOnly 'org.projectlombok:lombok:1.18.12'
@@ -80,4 +80,34 @@ dependencyManagement {
 
 test {
 	useJUnitPlatform()
+	testLogging {
+		exceptionFormat = 'full'
+	}
+	afterSuite { desc, result ->
+		if (!desc.parent) {
+			println "Results: (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
+			boolean skipTests = Boolean.parseBoolean(project.findProperty('SKIP_TESTS') ?: "false")
+			if (result.testCount == 0 && !skipTests) {
+				throw new IllegalStateException("No tests were found. Failing the build")
+			}
+		}
+	}
+}
+
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			artifact bootJar
+
+			// https://github.com/spring-gradle-plugins/dependency-management-plugin/issues/273
+			versionMapping {
+				usage("java-api") {
+					fromResolutionOf("runtimeClasspath")
+				}
+				usage("java-runtime") {
+					fromResolutionResult()
+				}
+			}
+		}
+	}
 }

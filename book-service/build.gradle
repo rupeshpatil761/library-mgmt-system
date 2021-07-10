@@ -4,6 +4,7 @@ plugins {
 	id 'java'
 	id 'groovy'
 	id 'org.springframework.cloud.contract'
+	id 'maven-publish'
 }
 
 group = 'com.rupesh.library'
@@ -34,15 +35,13 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	//developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
 	//testing
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-		exclude group: 'org.junit.jupiter', module: 'junit-jupiter-engine'
 	}
-	testImplementation 'junit:junit'
 
 	//Lombok dependencies
 	compileOnly 'org.projectlombok:lombok:1.18.12'
@@ -67,7 +66,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-amqp'
 	implementation 'org.springframework.cloud:spring-cloud-sleuth-zipkin'
 	implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
-	testImplementation 'org.springframework.amqp:spring-rabbit-test'
+	//testImplementation 'org.springframework.amqp:spring-rabbit-test'
 
 	//circuitbreaker-resilience4j
 	implementation 'org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j'
@@ -78,20 +77,18 @@ dependencies {
 
 	testImplementation 'org.springframework.cloud:spring-cloud-starter-contract-verifier'
 	testImplementation("org.springframework.cloud:spring-cloud-contract-wiremock")
-
-	//for compatibility
-	//testImplementation('org.junit.jupiter:junit-jupiter-engine')
-
+	//testImplementation("org.springframework.cloud:spring-cloud-contract-pact")
 }
 
 dependencyManagement {
 	imports {
 		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-		mavenBom "org.springframework.cloud:spring-cloud-contract-dependencies:${verifierVersion}"
+		//mavenBom "org.springframework.cloud:spring-cloud-contract-dependencies:${verifierVersion}"
 	}
 }
 
 contracts {
+	//testFramework = "JUNIT5"
 	baseClassForTests = 'com.book.service.cloud.contract.BaseContractTest'
 }
 
@@ -106,6 +103,28 @@ test {
 			boolean skipTests = Boolean.parseBoolean(project.findProperty('SKIP_TESTS') ?: "false")
 			if (result.testCount == 0 && !skipTests) {
 				throw new IllegalStateException("No tests were found. Failing the build")
+			}
+		}
+	}
+}
+
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			artifact bootJar
+
+			// remove::start[]
+			artifact verifierStubsJar
+			// remove::end[]
+
+			// https://github.com/spring-gradle-plugins/dependency-management-plugin/issues/273
+			versionMapping {
+				usage("java-api") {
+					fromResolutionOf("runtimeClasspath")
+				}
+				usage("java-runtime") {
+					fromResolutionResult()
+				}
 			}
 		}
 	}
