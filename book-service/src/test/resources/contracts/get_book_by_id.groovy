@@ -6,7 +6,7 @@ Contract.make {
 
     request {
         method("GET")
-        urlPath("books/12")
+        urlPath("/books/12")
     }
 
     response {
