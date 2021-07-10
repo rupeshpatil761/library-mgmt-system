@@ -4,6 +4,8 @@ import com.library.service.bean.Book;
 import com.library.service.bean.User;
 import com.library.service.bean.UserBook;
 import com.library.service.service.LibraryServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JCircuitBreakerFactory;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,8 @@ import java.util.List;
 @RestController
 @RequestMapping("library")
 public class LibraryController {
+
+    private Logger logger = LoggerFactory.getLogger(LibraryController.class);
 
     @Autowired
     private LibraryServiceImpl libraryService;
@@ -44,6 +48,7 @@ public class LibraryController {
 
     @GetMapping("/books/{id}")
     public Object getBookById(@PathVariable(name="id", required = true) Long id){
+        logger.info("{}"," << getBookById + "+id);
         return libraryService.getBookById(id);
         //return circuitBreakerFactory.create("book").run(() -> libraryService.getBookById(id), throwable -> serviceUnavailableResponse());
     }

@@ -67,7 +67,7 @@ dependencies {
 	testImplementation 'org.springframework.cloud:spring-cloud-starter-contract-stub-runner'
 	testImplementation("org.springframework.cloud:spring-cloud-contract-wiremock")
 
-	//implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+	implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
 	//implementation 'org.springframework.cloud:spring-cloud-starter-zipkin'
 	//implementation 'org.springframework.amqp:spring-rabbit'
 }

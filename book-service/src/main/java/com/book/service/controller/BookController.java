@@ -2,6 +2,8 @@ package com.book.service.controller;
 
 import com.book.service.model.Book;
 import com.book.service.service.BookServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +22,29 @@ public class BookController {
         return bookService.addBook(book);
     }
 
+    private Logger logger = LoggerFactory.getLogger(BookController.class);
+
+    @GetMapping("/{id}")
+    public Book getBookById(@PathVariable(name="id", required = true) Long id){
+        logger.info("{}"," << getBookById + "+id);
+        return bookService.getBookById(id);
+    }
+
+    @GetMapping()
+    public List<Book> getAllBooks(){
+        logger.info("{}"," << getAllBooks");
+        return bookService.getAllBooks();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteBook(@PathVariable(name="id", required = true) Long id){
+        return bookService.deleteBook(id);
+    }
+
+    @PutMapping("/{id}")
+    public Book updateBook(@PathVariable(name="id", required = true) Long id, @RequestBody Book book){
+        return bookService.updateBook(id,book);
+    }
 
     /**
      * Added these two endpoints to test dynamo db operations
@@ -34,26 +59,6 @@ public class BookController {
     @GetMapping("/dynamo")
     public List<com.book.service.model.dynamo.Book> getAllBooksDynamoDb(){
         return bookService.getAllBooksDynamo();
-    }
-
-    @GetMapping("/{id}")
-    public Book getBookById(@PathVariable(name="id", required = true) Long id){
-        return bookService.getBookById(id);
-    }
-
-    @GetMapping()
-    public List<Book> getAllBooks(){
-        return bookService.getAllBooks();
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteBook(@PathVariable(name="id", required = true) Long id){
-        return bookService.deleteBook(id);
-    }
-
-    @PutMapping("/{id}")
-    public Book updateBook(@PathVariable(name="id", required = true) Long id, @RequestBody Book book){
-        return bookService.updateBook(id,book);
     }
 
 }
