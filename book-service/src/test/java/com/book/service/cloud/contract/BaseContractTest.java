@@ -12,6 +12,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.cloud.contract.verifier.messaging.boot.AutoConfigureMessageVerifier;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -38,7 +39,6 @@ public class BaseContractTest {
 
         // Mock business layer
         Mockito.when(bookService.getBookById(Mockito.anyLong())).thenReturn(getMockBookData());
-
     }
 
     private Book getMockBookData(){
@@ -50,8 +50,4 @@ public class BaseContractTest {
         book.setCategory(BookCategory.THRILLER);
         return book;
     }
-
-    /*@Test
-    public void contextLoads() {
-    }*/
 }
