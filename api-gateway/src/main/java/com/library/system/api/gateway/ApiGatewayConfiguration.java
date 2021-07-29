@@ -27,6 +27,7 @@ public class ApiGatewayConfiguration {
                 .route(p -> p.path("/library/**")
                         .uri("lb://library-service"))
                 .build();
+        // Here lb for book and user service not helpful because our every request will go through library service.
     }
 }
 

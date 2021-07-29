@@ -1,5 +1,6 @@
 package com.library.service;
 
+import brave.sampler.Sampler;
 import com.library.service.config.FeignErrorDecoder;
 import com.library.service.exception.ResourceNotFoundException;
 import feign.FeignException;
@@ -53,6 +54,11 @@ public class LibraryServiceApplication {
 		    	//We need to record all http errors
 				//.recordException()
 				.build();
+	}
+
+	@Bean
+	public Sampler defaultSampler() {
+		return Sampler.ALWAYS_SAMPLE;
 	}
 
 }
