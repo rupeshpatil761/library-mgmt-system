@@ -157,4 +157,23 @@ public class LibraryServiceImpl implements LibraryService {
             throw new ResourceNotFoundException(" userId:"+userId);
         }
     }
+    @Override
+    public UserBook getBooksAssignedToUser(Long userId) {
+        User user = userServiceProxy.getUserById(userId);
+        if(user!=null) {
+            UserBook userBook = new UserBook(user);
+            List<Library> libraries = libraryRepository.findAllByUserId(userId);
+            if(libraries.isEmpty()){
+                throw new ResourceNotFoundException(" userId:"+userId);
+            } else {
+                for(Library library : libraries){
+                    Book book = bookServiceProxy.getBookById(library.getBookId());
+                    userBook.bookList.add(book);
+                }
+                return userBook;
+            }
+        } else {
+            throw new ResourceNotFoundException(" userId:"+userId);
+        }
+    }
 }
