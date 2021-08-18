@@ -48,7 +48,7 @@ public class LibraryController {
 
     @GetMapping("/books/{id}")
     public Object getBookById(@PathVariable(name="id", required = true) Long id){
-        logger.info("{}"," << getBookById + "+id);
+        logger.info("GetBookById book id : {}",id);
         return libraryService.getBookById(id);
         //return circuitBreakerFactory.create("book").run(() -> libraryService.getBookById(id), throwable -> serviceUnavailableResponse());
     }
@@ -93,5 +93,14 @@ public class LibraryController {
     public UserBook releaseBookForUser(@PathVariable(name="user_id", required = true) Long userId
             ,@PathVariable(name="book_id", required = true) Long bookId){
         return libraryService.releaseBookForUser(userId,bookId);
+    }
+    /**
+     * Get the books assigned to user
+     */
+
+    @GetMapping("/users/books/{user_id}")
+    public UserBook getBooksAssignedToUser(@PathVariable(name="user_id", required = true) Long userId){
+        logger.info("getBooksAssignedToUser user id : {}",userId);
+        return libraryService.getBooksAssignedToUser(userId);
     }
 }

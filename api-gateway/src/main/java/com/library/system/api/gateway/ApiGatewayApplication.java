@@ -12,24 +12,23 @@ import reactor.netty.http.client.HttpClient;
 @EnableDiscoveryClient
 public class ApiGatewayApplication {
 
-	/*
-		Add below bean config to avoid below error/exception when we call http://localhost:8765/user-service/users
+    /*
+        Add below bean config to avoid below error/exception when we call http://localhost:8765/user-service/users
 
-		io.netty.resolver.dns.DnsResolveContext$SearchDomainUnknownHostException: Search domain query failed.
+        io.netty.resolver.dns.DnsResolveContext$SearchDomainUnknownHostException: Search domain query failed.
 
-	 */
-	@Bean
-	public HttpClient httpClient() {
-		return HttpClient.create().resolver(DefaultAddressResolverGroup.INSTANCE);
-	}
+     */
+    @Bean
+    public HttpClient httpClient() {
+        return HttpClient.create().resolver(DefaultAddressResolverGroup.INSTANCE);
+    }
 
-	public static void main(String[] args) {
-		SpringApplication.run(ApiGatewayApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(ApiGatewayApplication.class, args);
+    }
 
-	@Bean
+	/*@Bean
 	public Sampler defaultSampler() {
 		return Sampler.ALWAYS_SAMPLE;
-	}
-
+	}*/
 }

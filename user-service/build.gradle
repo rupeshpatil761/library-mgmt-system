@@ -51,6 +51,14 @@ dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
 	implementation 'org.springframework.cloud:spring-cloud-starter-config'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+
+	//zipkin-sleuth
+	implementation 'org.springframework.cloud:spring-cloud-sleuth-zipkin'
+	implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+
+	//logstash
+	implementation 'net.logstash.logback:logstash-logback-encoder:5.3'
+	implementation 'ch.qos.logback:logback-core:1.2.3'
 }
 
 dependencyManagement {
