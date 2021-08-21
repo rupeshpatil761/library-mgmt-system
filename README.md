@@ -7,3 +7,10 @@ here we are creating two images
 So in future, we will have new version with 0.0.2-snapshot and latest version will also get replaced.
 
 docker build -f book-service/Dockerfile -t jpop/book-service:0.0.1-SNAPSHOT -t jpop/book-service:latest .
+
+book-service:9092
+user-service:9091
+library-service:8080
+api-gateway:8765
+eureka-server:8761
+config-server:8888
