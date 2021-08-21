@@ -1,11 +1,12 @@
 version: '3.7'
 services:
-  book-service: book-service
-  build:
-    context: book-service
-    dockerfile: Dockerfile
-  image: jpop/book-service:latest
-  environment:
-    -spring.cloud.config.uri=http://localhost:8888
-  restart: on-failure
-  ports: 9092:9092
+  book-service:
+    image: jpop/book-service:latest
+    ports:
+      - '9092:9092'
+    environment:
+      - spring.cloud.config.uri=http://localhost:8888
+    build:
+      context: book-service
+      dockerfile: Dockerfile
+#    restart: on-failure
