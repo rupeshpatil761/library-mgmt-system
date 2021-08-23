@@ -43,14 +43,8 @@ public class UserPrincipal implements UserDetails {
     private static List<GrantedAuthority> getAuthorityFromRole(String userRole) {
         List<GrantedAuthority> authorities = new ArrayList<>();
         switch (userRole) {
-            case "PATIENT":
-                authorities.add(new SimpleGrantedAuthority("PATIENT"));
-                break;
-            case "DOCTOR":
-                authorities.add(new SimpleGrantedAuthority("DOCTOR"));
-                break;
-            case "HOSPITAL":
-                authorities.add(new SimpleGrantedAuthority("HOSPITAL"));
+            case "ADMIN":
+                authorities.add(new SimpleGrantedAuthority("ADMIN"));
                 break;
             default:
                 authorities.add(new SimpleGrantedAuthority("NO_ROLE"));

@@ -77,36 +77,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/",
-                        "/favicon.ico",
-                        "/**/*.png",
-                        "/**/*.gif",
-                        "/**/*.svg",
-                        "/**/*.jpg",
-                        "/**/*.html",
-                        "/**/*.css",
-                        "/**/*.js")
-                .permitAll()
-//                .antMatchers("**")
-//                .permitAll()
-//                .antMatchers("/hms/updateUserTable/**")// this is permitting all requests
-//                .permitAll()
                 .antMatchers("/login/**")// this is permitting all request
                 .permitAll()
                 .antMatchers("/register/**")// this is permitting all request
                 .permitAll()
-
                 .antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**")
                 .permitAll()
                 .and()
                 .authorizeRequests()
-
                 .anyRequest()
                 .authenticated();
 
         // Add our custom JWT security filter
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-
     }
-
 }
