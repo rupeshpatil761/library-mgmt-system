@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/books")
+@CrossOrigin(origins = "http://localhost:4200")
 public class BookController {
 
     @Autowired
@@ -37,8 +38,9 @@ public class BookController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteBook(@PathVariable(name="id", required = true) Long id){
-        return bookService.deleteBook(id);
+    public ResponseEntity<String> deleteBook(@PathVariable(name="id", required = true) Long id){
+        bookService.deleteBook(id);
+        return ResponseEntity.ok("Resource Delete");
     }
 
     @PutMapping("/{id}")

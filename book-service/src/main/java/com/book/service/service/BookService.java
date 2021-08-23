@@ -20,5 +20,5 @@ public interface BookService {
 
     com.book.service.model.Book updateBook(Long id, com.book.service.model.Book book);
 
-    ResponseEntity<?> deleteBook(Long id);
+    void deleteBook(Long id);
 }

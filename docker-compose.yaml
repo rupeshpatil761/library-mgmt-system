@@ -1,0 +1,122 @@
+version: '3.7'
+services:
+  postgres:
+    container_name: postgres_container
+    image: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - spring-cloud-network
+    restart: unless-stopped
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    networks:
+      - spring-cloud-network
+    restart: unless-stopped
+  config-server:
+    build:
+      context: config-server
+      dockerfile: Dockerfile
+    image: jpop/config-server:latest
+    ports:
+      - '8888:8888'
+    environment:
+      - spring.profiles.active=native
+      - spring.cloud.config.server.native.search-locations=file-based-config-store
+    networks:
+      - spring-cloud-network
+  eureka-server:
+    build:
+      context: naming-server
+      dockerfile: Dockerfile
+    image: jpop/eureka-server:latest
+    ports:
+      - '8761:8761'
+    depends_on:
+      - config-server
+    networks:
+      - spring-cloud-network
+  book-service:
+    image: jpop/book-service:latest
+    ports:
+      - '9092:9092'
+    environment:
+      - spring.cloud.config.uri=http://config-server:8888
+      - eureka.client.serviceUrl.defaultZone=http://eureka-server:8761/eureka
+    build:
+      context: book-service
+      dockerfile: Dockerfile
+      #restart: on-failure
+    depends_on:
+      - eureka-server
+    networks:
+      - spring-cloud-network
+  user-service:
+    image: jpop/user-service:latest
+    ports:
+      - '9091:9091'
+    environment:
+      - spring.cloud.config.uri=http://config-server:8888
+      - eureka.client.serviceUrl.defaultZone=http://eureka-server:8761/eureka
+    build:
+      context: user-service
+      dockerfile: Dockerfile
+    depends_on:
+      - eureka-server
+    networks:
+      - spring-cloud-network
+  library-service:
+    image: jpop/library-service:latest
+    ports:
+      - '8080:8080'
+    environment:
+      - spring.cloud.config.uri=http://config-server:8888
+      - eureka.client.serviceUrl.defaultZone=http://eureka-server:8761/eureka
+    build:
+      context: library-service
+      dockerfile: Dockerfile
+    depends_on:
+      - eureka-server
+    networks:
+      - spring-cloud-network
+  api-gateway:
+    container_name: api-gateway
+    image: jpop/api-gateway:latest
+    ports:
+      - '8765:8765'
+    environment:
+      - spring.cloud.config.uri=http://config-server:8888
+      - eureka.client.serviceUrl.defaultZone=http://eureka-server:8761/eureka
+    build:
+      context: api-gateway
+      dockerfile: Dockerfile
+    depends_on:
+      - eureka-server
+      - user-service
+      - book-service
+      - library-service
+    networks:
+      - spring-cloud-network
+
+networks:
+  spring-cloud-network:
+    driver: bridge
+
+volumes:
+  postgres:
+  pgadmin:

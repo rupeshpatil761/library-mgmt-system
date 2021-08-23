@@ -4,7 +4,7 @@
     <include resource="org/springframework/boot/logging/logback/defaults.xml" />
 
     <springProperty scope="context" name="springAppName" source="spring.application.name"/>
-    <property name="LOG_PATH" value="../logging-files/user-service" />
+    <property name="LOG_PATH" value="../logging-files/library-service" />
 
     <!--<property name="LOG_PATTERN" value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(-&#45;&#45;){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m | %mdc %n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}" />-->
 
@@ -21,7 +21,8 @@
         </layout>
     </appender>
 
-    <appender name="FILE-AUDIT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="FILE-AUDIT"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOG_PATH}/debug.log</file>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>${LOG_PATTERN}</pattern>
@@ -60,14 +61,14 @@
 
     </appender>
 
-    <!-- Send logs to both console and file audit -->
-    <logger name="com.user.service" level="debug" additivity="false">
+    <!-- Send book service specific logs to both console and file audit -->
+    <logger name="com.book.service" level="debug" additivity="false">
         <appender-ref ref="FILE-AUDIT" />
-        <appender-ref ref="STDOUT" />
     </logger>
-
-    <root level="error">
+    <!-- print all logs -->
+    <root level="info">
         <appender-ref ref="FILE-ERROR" />
+        <appender-ref ref="STDOUT" />
     </root>
 
 </configuration>
