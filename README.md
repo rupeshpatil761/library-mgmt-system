@@ -1,11 +1,18 @@
 # library-mgmt-system
 
 book-service:9092
+
 user-service:9091
+
 library-service:8080
+
 api-gateway:8765
+
 eureka-server:8761
+
 config-server:8888
+
+authentication-service:9094
 
 here we are creating two images
 1. 0.0.1-SNAPSHOT
