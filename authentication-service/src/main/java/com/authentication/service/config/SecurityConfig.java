@@ -65,7 +65,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
+
+//        http
+//            .authorizeRequests()
+//            .antMatchers("/api/v1/auth/**").permitAll()
+//            // .antMatchers("/swagger-ui.html").permitAll()
+//            // .antMatchers("/v1/api-docs.yml").permitAll()
+//            .anyRequest().authenticated()
+//            .and()
+//            .cors().disable()
+//            .exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
+//            .and()
+//            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//            .and()
+//            .csrf().disable();
+
+             http
                 .cors()
                 .and()
                 .csrf()
@@ -77,18 +92,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/login/**")// this is permitting all request
+                .antMatchers("/auth/**")// this is permitting all request
                 .permitAll()
-                .antMatchers("/register/**")// this is permitting all request
-                .permitAll()
-                .antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**")
-                .permitAll()
-                .and()
-                .authorizeRequests()
                 .anyRequest()
                 .authenticated();
-
-        // Add our custom JWT security filter
-        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+//              // Add our custom JWT security filter
+            http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }

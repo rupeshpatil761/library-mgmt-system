@@ -5,6 +5,7 @@ import com.authentication.service.model.LoginUser;
 import com.authentication.service.security.JwtTokenProvider;
 import com.authentication.service.security.LoginUserService;
 import com.authentication.service.security.UserPrincipal;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.reactive.ClientHttpResponse;
@@ -34,11 +35,10 @@ public class AuthenticationController {
     @Autowired
     private WebClient.Builder webClientBuilder;
 
-
     @Autowired
     private JwtTokenProvider tokenProvider;
 
-    @PostMapping("/login")
+    @PostMapping("/auth/login")
     private JwtAuthenticationResponse login(@RequestBody @Valid LoginUser user) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -52,7 +52,7 @@ public class AuthenticationController {
         return new JwtAuthenticationResponse(jwt, tokenProvider.getUserIdFromJWT(jwt), userPrincipal.getUserRole());
     }
 
-    @PostMapping("/register")
+    @PostMapping("/auth/register")
     private ResponseEntity<LoginUser> register(@RequestBody @Valid LoginUser user) {
         LoginUser newUser = loginUserService.updateUserTable(user);
         return ResponseEntity.ok(newUser);

@@ -8,6 +8,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class JwtTokenProvider {
@@ -27,7 +29,12 @@ public class JwtTokenProvider {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
 
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("id", userPrincipal.getUserName());
+        claims.put("role", userPrincipal.getUserRole());
+
         return Jwts.builder()
+                //.setClaims(claims)
                 .setSubject(userPrincipal.getUserName())
                 .setIssuedAt(new Date())
                 .setExpiration(expiryDate)
@@ -53,7 +60,7 @@ public class JwtTokenProvider {
         } catch (MalformedJwtException ex) {
             logger.error("Invalid JWT token");
         }
-// TODO: ExpiredJwtException not importing
+//      TODO: ExpiredJwtException not importing
 //       catch (ExpiredJwtException ex) {
 //            logger.error("Expired JWT token");
 //        }

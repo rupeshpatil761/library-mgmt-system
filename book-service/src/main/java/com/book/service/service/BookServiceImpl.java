@@ -20,8 +20,8 @@ public class BookServiceImpl implements BookService {
     @Autowired
     private BookRepository bookRepository;
 
-    @Autowired
-    private BookRepositoryDynamo bookRepositoryDynamo;
+    //@Autowired
+    private BookRepositoryDynamo bookRepositoryDynamo = null;
 
     @Override
     public Book addBook(Book book) {
