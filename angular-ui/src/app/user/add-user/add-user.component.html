@@ -1,0 +1,76 @@
+<div class="container-sm mt-5">
+  <form class="row g-3" [formGroup]="userForm" (ngSubmit)="onSubmit()" novalidate>
+    <div class="col-md-6">
+      <label for="firstName" class="form-label">First Name</label>
+      <input type="text" class="form-control"  formControlName="firstName" placeholder="Alice" required>
+      <div *ngIf="!formControl.get('firstName')?.valid && (formControl.get('firstName')?.dirty ||formControl.get('firstName')?.touched)">
+        <div [hidden]="!formControl.get('firstName')?.errors?.required">
+          First Name is required
+        </div>
+        <div [hidden]="!formControl.get('firstName')?.errors?.minlength">
+          Min Length is {{formControl.get('firstName')?.errors?.minlength?.requiredLength}}
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <label for="lastName" class="form-label">Last Name</label>
+      <input type="text" class="form-control" formControlName="lastName" placeholder="Williams" required>
+      <div *ngIf="!formControl.get('lastName')?.valid && (formControl.get('lastName')?.dirty ||formControl.get('lastName')?.touched)">
+        <div [hidden]="!formControl.get('lastName')?.errors?.required">
+          Last Name is required
+        </div>
+        <div [hidden]="!formControl.get('lastName')?.errors?.minlength">
+          Min Length is {{formControl.get('lastName')?.errors?.minlength?.requiredLength}}
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <label for="username" class="form-label">Username</label>
+      <input type="text" class="form-control" formControlName="username" placeholder="alicewilliams123" required>
+      <div *ngIf="!formControl.get('username')?.valid && (formControl.get('username')?.dirty ||formControl.get('username')?.touched)">
+        <div [hidden]="!formControl.get('username')?.errors?.required">
+          Username is required
+        </div>
+        <div [hidden]="!formControl.get('username')?.errors?.maxlength">
+          Max Length is {{formControl.get('username')?.errors?.maxlength?.requiredLength}}
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <label for="email" class="form-label">Email</label>
+      <input type="email" class="form-control" formControlName="email" placeholder="alicewilliams@gmail.com" required>
+      <div *ngIf="!formControl.get('email')?.valid && (formControl.get('email')?.dirty ||formControl.get('email')?.touched)">
+        <div [hidden]="!formControl.get('email')?.errors?.required">
+          Email  is required
+        </div>
+        <div [hidden]="!formControl.get('email')?.errors?.email">
+          Invalid email id
+        </div>
+      </div>
+    </div>
+    <div class="col-12">
+      <label for="address" class="form-label">Address</label>
+      <input type="text" class="form-control" formControlName="address" placeholder="#123 Cuber City, Alpha Colony" required>
+      <div *ngIf="!formControl.get('email')?.valid && (formControl.get('email')?.dirty ||formControl.get('email')?.touched)">
+        <div [hidden]="!formControl.get('email')?.errors?.required">
+          Address is required
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <label for="age" class="form-label">age</label>
+      <input type="text" class="form-control" formControlName="age" placeholder="45" required>
+      <div *ngIf="!formControl.get('age')?.valid && (formControl.get('age')?.dirty ||formControl.get('age')?.touched)">
+        <div [hidden]="!formControl.get('age')?.errors?.required">
+          Age is required
+        </div>
+        <div [hidden]="!formControl.get('age')?.errors?.pattern">
+          Enter only numeric value
+        </div>
+      </div>
+    </div>
+    <div class="col-12">
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+  </form>
+</div>
