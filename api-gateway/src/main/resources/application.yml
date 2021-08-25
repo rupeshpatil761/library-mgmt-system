@@ -1,0 +1,50 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+server:
+  port: 8765
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:4200"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders:
+              - content-type
+              - Origin
+  profiles:
+    active: dev
+  sleuth:
+    sampler:
+      probability: 1.0
+  zipkin:
+    baseUrl: http://localhost:9411/
+
+#eureka.instance.prefer-ip-address=true
+#spring.cloud.gateway.httpserver.wiretap=true
+#spring.cloud.gateway.httpclient.wiretap=true
+
+#Uncomment below to disable connecting to eureka server
+#eureka.client.enabled=false
+
+#JWT
+app:
+  jwtExpirationInMs: 604800000
+  jwtSecret: JWTSuperSecretKeyLibrary
+  main:
+    allow-bean-definition-overriding: true
+
