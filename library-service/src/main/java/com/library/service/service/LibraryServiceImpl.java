@@ -47,20 +47,26 @@ public class LibraryServiceImpl implements LibraryService {
     @Override
     public UserBook getUserBookAssociationByUserId(long id) {
         User user = userServiceProxy.getUserById(id);
+        logger.info(user+" <<<<<<< user for user id "+id);
         if(user!=null){
             //fetches book ids on user_id from library table and calls GET /books/{book_id}
             // for all books. Displays consolidated data
-            List<Library> libraryList = libraryRepository.findAllByUserId(id);
             UserBook userBook = new UserBook(user);
-            for (Library library : libraryList) {
-                userBook.bookList.add(bookServiceProxy.getBookById(library.getBookId()));
-            }
-            //Here we can call signle native query to avoid individual database calls for each bookId
+            try {
+                List<Library> libraryList = libraryRepository.findAllByUserId(id);
+                for (Library library : libraryList) {
+                    userBook.bookList.add(bookServiceProxy.getBookById(library.getBookId()));
+                }
+                //Here we can call signle native query to avoid individual database calls for each bookId
             /*String bookIds = libraryList.stream().map(l -> String.valueOf(l.getBookId())).collect(Collectors.joining(","));
             logger.info(bookIds+" <<<<<<< bookIds for user id "+id);*/
+            }catch (Exception e) {
+                logger.info("No books are associate with user");
+            }
             return userBook;
+        } else {
+            throw new ResourceNotFoundException(id);
         }
-        throw new ResourceNotFoundException(id);
     }
 
     @Override
@@ -152,6 +158,25 @@ public class LibraryServiceImpl implements LibraryService {
                 return userBook;
             } else {
                 throw new ResourceNotFoundException(" bookId:"+bookId);
+            }
+        } else {
+            throw new ResourceNotFoundException(" userId:"+userId);
+        }
+    }
+    @Override
+    public UserBook getBooksAssignedToUser(Long userId) {
+        User user = userServiceProxy.getUserById(userId);
+        if(user!=null) {
+            UserBook userBook = new UserBook(user);
+            List<Library> libraries = libraryRepository.findAllByUserId(userId);
+            if(libraries.isEmpty()){
+                throw new ResourceNotFoundException(" userId:"+userId);
+            } else {
+                for(Library library : libraries){
+                    Book book = bookServiceProxy.getBookById(library.getBookId());
+                    userBook.bookList.add(book);
+                }
+                return userBook;
             }
         } else {
             throw new ResourceNotFoundException(" userId:"+userId);

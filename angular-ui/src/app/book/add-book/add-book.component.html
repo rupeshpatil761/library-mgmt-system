@@ -1,0 +1,67 @@
+<div class="container-sm mt-5">
+  <form class="row g-3" [formGroup]="bookForm" (ngSubmit)="onSubmit()" novalidate>
+    <div class="col-md-6">
+      <label for="name" class="form-label">Book Name</label>
+      <input type="text" class="form-control"  formControlName="name" placeholder="Java" required>
+      <div *ngIf="!formControl.get('name')?.valid && (formControl.get('name')?.dirty ||formControl.get('name')?.touched)">
+        <div [hidden]="!formControl.get('name')?.errors?.required">
+          Book Name is required
+        </div>
+        <div [hidden]="!formControl.get('name')?.errors?.minlength">
+          Min Length is {{formControl.get('name')?.errors?.minlength?.requiredLength}}
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <label for="author" class="form-label">Author</label>
+      <input type="text" class="form-control" formControlName="author" placeholder="Williams" required>
+      <div *ngIf="!formControl.get('author')?.valid && (formControl.get('author')?.dirty ||formControl.get('author')?.touched)">
+        <div [hidden]="!formControl.get('author')?.errors?.required">
+          Author Name is required
+        </div>
+        <div [hidden]="!formControl.get('author')?.errors?.minlength">
+          Min Length is {{formControl.get('author')?.errors?.minlength?.requiredLength}}
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <label for="category" class="form-label">Category</label>
+      <input type="text" class="form-control" formControlName="category" placeholder="alicewilliams123" required>
+      <div *ngIf="!formControl.get('category')?.valid && (formControl.get('category')?.dirty ||formControl.get('category')?.touched)">
+        <div [hidden]="!formControl.get('category')?.errors?.required">
+          category is required
+        </div>
+        <div [hidden]="!formControl.get('category')?.errors?.minLength">
+          Max Length is {{formControl.get('category')?.errors?.minLength?.requiredLength}}
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <label for="description" class="form-label">Description</label>
+      <input type="description" class="form-control" formControlName="description" placeholder="alicewilliams@gmail.com" required>
+      <div *ngIf="!formControl.get('description')?.valid && (formControl.get('description')?.dirty ||formControl.get('description')?.touched)">
+        <div [hidden]="!formControl.get('description')?.errors?.required">
+          description  is required
+        </div>
+        <div [hidden]="!formControl.get('description')?.errors?.minLength">
+          Max Length is {{formControl.get('description')?.errors?.minLength?.requiredLength}}
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <label for="price" class="form-label">Price</label>
+      <input type="text" class="form-control" formControlName="price" placeholder="99.99" required>
+      <div *ngIf="!formControl.get('price')?.valid && (formControl.get('price')?.dirty ||formControl.get('price')?.touched)">
+        <div [hidden]="!formControl.get('price')?.errors?.required">
+          price is required
+        </div>
+        <div [hidden]="!formControl.get('price')?.errors?.pattern">
+          Enter only numeric value
+        </div>
+      </div>
+    </div>
+    <div class="col-12">
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+  </form>
+</div>

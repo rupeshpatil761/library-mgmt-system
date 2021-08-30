@@ -25,4 +25,5 @@ public interface LibraryService {
 
     UserBook issueBookToUser(Long userId, Long bookId);
     UserBook releaseBookForUser(Long userId, Long bookId);
+    UserBook getBooksAssignedToUser(Long userId);
 }

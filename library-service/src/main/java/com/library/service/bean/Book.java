@@ -21,13 +21,3 @@ public class Book {
 
     private String description;
 }
-
-enum BookCategory {
-    FANTACY,
-    THRILLER,
-    SELF_HELP,
-    MOTIVATIONAL,
-    TRAVEL,
-    SCIENCE,
-    ROMANCE;
-}

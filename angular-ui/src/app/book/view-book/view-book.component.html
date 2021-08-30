@@ -1,0 +1,43 @@
+<div class="container mt-5">
+  <div class="row">
+    <div class="col">
+      <h3>Book Info</h3>
+    </div>
+    <div class="col">
+      <button type="button" class="btn btn-primary float-end" routerLink="../../">Back</button>
+    </div>
+  </div>
+  <div class="table-responsive" *ngIf="bookData">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Label</th>
+          <th scope="col">Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">bookId</th>
+          <td>{{bookData.id}}</td>
+        </tr>
+        <tr>
+          <th scope="row">name</th>
+          <td>{{bookData.name}}</td>
+        </tr>
+        <tr>
+          <th scope="row">author</th>
+          <td>{{bookData.author}}</td>
+        </tr>
+        <tr>
+          <th scope="row">category</th>
+          <td>{{bookData.category}}</td>
+        </tr>
+        <tr>
+          <th scope="row">description</th>
+          <td>{{bookData.description}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<router-outlet></router-outlet>

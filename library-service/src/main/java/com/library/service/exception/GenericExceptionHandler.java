@@ -14,7 +14,10 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class GenericExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({ ResourceNotFoundException.class})
-    public ResponseEntity<Object> handleResourceNotFoundException(Exception ex, WebRequest request) {
+    public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException ex, WebRequest request) {
+        /*return ResponseEntity
+                .status(ex.getResponse().status())
+                .body(ex.getResponse().body().toString());*/
         GenericResponse exceptionResponse =
                 new GenericResponse(ex.getMessage(),HttpStatus.NOT_FOUND.value());
         return new ResponseEntity(exceptionResponse, HttpStatus.NOT_FOUND);
@@ -27,7 +30,7 @@ public class GenericExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity(exceptionResponse, HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler({ Exception.class})
+    @ExceptionHandler({Exception.class})
     public ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
         GenericResponse exceptionResponse =
                 new GenericResponse(ex.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR.value());

@@ -1,7 +1,7 @@
 package com.library.service.exception;
 
 public class ResourceAlreadyExistException extends RuntimeException {
-    private String resourceName;
+    /*private String resourceName;
     private String fieldName;
     private Object fieldValue;
 
@@ -10,5 +10,13 @@ public class ResourceAlreadyExistException extends RuntimeException {
         this.resourceName = resourceName;
         this.fieldName = fieldName;
         this.fieldValue = fieldValue;
+    }*/
+
+    private String resourceName;
+    private String fieldName;
+    private Object fieldValue;
+
+    public ResourceAlreadyExistException() {
+        super(String.format("Request resource already exists"));
     }
 }

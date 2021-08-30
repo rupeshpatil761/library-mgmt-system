@@ -20,8 +20,8 @@ public class BookServiceImpl implements BookService {
     @Autowired
     private BookRepository bookRepository;
 
-    @Autowired
-    private BookRepositoryDynamo bookRepositoryDynamo;
+    //@Autowired
+    private BookRepositoryDynamo bookRepositoryDynamo = null;
 
     @Override
     public Book addBook(Book book) {
@@ -59,10 +59,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public ResponseEntity<?> deleteBook(Long id) {
+    public void deleteBook(Long id) {
         Book book = bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
         bookRepository.delete(book);
-        return ResponseEntity.ok().build();
-
     }
 }
