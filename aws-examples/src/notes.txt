@@ -1,0 +1,16 @@
+https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/migration-side-by-side.html
+
+1.x
+https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk
+https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-s3
+https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-dynamodb/1.9.0
+
+
+
+2.x
+https://mvnrepository.com/artifact/software.amazon.awssdk/s3
+https://mvnrepository.com/artifact/software.amazon.awssdk/dynamodb
+
+
+
+https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/examples-dynamodb-items.html
